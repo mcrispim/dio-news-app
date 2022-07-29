@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.diosoccernews.databinding.FragmentNewsBinding
+import com.example.diosoccernews.ui.NewsAdapter
 
 class NewsFragment : Fragment() {
 
@@ -27,7 +29,9 @@ class NewsFragment : Fragment() {
         _binding = FragmentNewsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        newsViewModel.newsList.observe(viewLifecycleOwner) {
+        binding.rvNewsRecyclerView.layoutManager = LinearLayoutManager(context)
+        newsViewModel.newsList.observe(viewLifecycleOwner) { listNews ->
+            binding.rvNewsRecyclerView.adapter = NewsAdapter(listNews, {})
 
         }
 
