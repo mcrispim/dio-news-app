@@ -2,4 +2,8 @@
     <string name="app_name">Dio Soccer News</string>
     <string name="title_news">News</string>
     <string name="title_favorites">Favoritos</string>
+    <string name="imagem_relacionada_noticia">Imagem relacionada à notícia.</string>
+    <string name="link_para_a_noticia">Link para a notícia.</string>
+    <string name="imagem_do_bot_o_favorito">Imagem do botão favorito.</string>
+    <string name="imagem_do_bot_o_compartilhar">Imagem do botão compartilhar.</string>
 </resources>
