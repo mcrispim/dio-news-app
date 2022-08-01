@@ -3,7 +3,10 @@ package com.example.diosoccernews.ui.news
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.room.Room
+import com.example.diosoccernews.NewsApplication
 import com.example.diosoccernews.data.News
+import com.example.diosoccernews.data.local.AppDatabase
 import com.example.diosoccernews.data.remote.NewsApiService
 import retrofit2.Call
 import retrofit2.Callback
@@ -23,6 +26,19 @@ class NewsViewModel : ViewModel() {
             .build()
 
         newsApi = retrofit.create(NewsApiService::class.java)
+
+        val db = Room.databaseBuilder(
+            NewsApplication.getAppContext(),
+            AppDatabase::class.java,
+            "news-database"
+        ).build()
+
+        getAllRemoteNews()
+    }
+
+    val newsList: LiveData<List<News>> = _newsList
+
+    private fun getAllRemoteNews() {
         newsApi.getAllNews().enqueue(
             object : Callback<List<News>> {
                 override fun onResponse(
@@ -31,7 +47,7 @@ class NewsViewModel : ViewModel() {
                 ) {
                     response.body()?.let { news ->
                         _newsList.value = news
-                    // TODO: melhorar resposta em caso de falha
+                        // TODO: melhorar resposta em caso de falha
                     }
                 }
 
@@ -44,5 +60,4 @@ class NewsViewModel : ViewModel() {
             }
         )
     }
-    val newsList: LiveData<List<News>> = _newsList
 }
