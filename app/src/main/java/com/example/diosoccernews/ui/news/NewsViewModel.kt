@@ -13,7 +13,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class NewsViewModel : ViewModel() {
-    lateinit var newsApi: NewsApiService
+    var newsApi: NewsApiService
     private val _newsList = MutableLiveData<List<News>>()
 
     init {
@@ -31,12 +31,14 @@ class NewsViewModel : ViewModel() {
                 ) {
                     response.body()?.let { news ->
                         _newsList.value = news
+                    // TODO: melhorar resposta em caso de falha
                     }
                 }
 
                 override fun onFailure(
                     call: Call<List<News>>, t: Throwable
                 ) {
+                    // TODO: melhorar resposta em caso de falha
                     t.printStackTrace()
                 }
             }

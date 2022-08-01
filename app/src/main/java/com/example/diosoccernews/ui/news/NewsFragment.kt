@@ -1,6 +1,7 @@
 package com.example.diosoccernews.ui.news
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,8 +32,9 @@ class NewsFragment : Fragment() {
 
         binding.rvNewsRecyclerView.layoutManager = LinearLayoutManager(context)
         newsViewModel.newsList.observe(viewLifecycleOwner) { listNews ->
-            binding.rvNewsRecyclerView.adapter = NewsAdapter(listNews, {})
-
+            binding.rvNewsRecyclerView.adapter = NewsAdapter(listNews) {
+                Log.d("MINHA_TAG", "Clicou!!!")
+            }
         }
 
         return root
