@@ -27,11 +27,7 @@ class NewsViewModel : ViewModel() {
 
         newsApi = retrofit.create(NewsApiService::class.java)
 
-        val db = Room.databaseBuilder(
-            NewsApplication.getAppContext(),
-            AppDatabase::class.java,
-            "news-database"
-        ).build()
+        val newsDao = AppDatabase.getDaoInstance(NewsApplication.getAppContext())
 
         getAllRemoteNews()
     }
