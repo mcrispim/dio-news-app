@@ -1,11 +1,14 @@
 package com.example.diosoccernews.ui
 
+import android.app.Application
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.diosoccernews.NewsApplication
+import com.example.diosoccernews.R
 import com.example.diosoccernews.data.News
 import com.example.diosoccernews.databinding.ItemNewsBinding
 import com.squareup.picasso.Picasso
@@ -29,10 +32,11 @@ class NewsAdapter(private val listNews: List<News>,
                 holder.binding.tvTexto.text = news.texto
 
                 // implementação da funcionalidade Link para a Notícia
+                val context = holder.itemView.context
                 holder.binding.btLink.setOnClickListener { _ ->
                         val intentOpenURL = Intent(Intent.ACTION_VIEW)
                         intentOpenURL.data = Uri.parse(news.link)
-                        holder.itemView.context.startActivity(intentOpenURL)
+                        context.startActivity(intentOpenURL)
                 }
 
                 // implementação da funcionalidade Share da Notícia
@@ -40,7 +44,7 @@ class NewsAdapter(private val listNews: List<News>,
                         val intentShareURL = Intent(Intent.ACTION_SEND)
                         intentShareURL.type ="text/plain"
                         intentShareURL.putExtra(Intent.EXTRA_TEXT, news.link)
-                        holder.itemView.context.startActivity(Intent.createChooser(intentShareURL, "Share via"))
+                        context.startActivity(Intent.createChooser(intentShareURL, "Share via"))
                 }
 
                 // Implementação da funcionalidade favorito da notícia
@@ -48,6 +52,11 @@ class NewsAdapter(private val listNews: List<News>,
                         news.isFavorite = !news.isFavorite
                         favoriteListener(news)
                         notifyItemChanged(position)
+                }
+                if (news.isFavorite) {
+                        holder.binding.ivFavorito.setColorFilter(R.color.black)
+                } else {
+                        holder.binding.ivFavorito.setColorFilter(R.color.white)
                 }
         }
 
