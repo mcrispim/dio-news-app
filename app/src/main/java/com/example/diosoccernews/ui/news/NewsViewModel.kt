@@ -3,7 +3,6 @@ package com.example.diosoccernews.ui.news
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.room.Room
 import com.example.diosoccernews.NewsApplication
 import com.example.diosoccernews.data.News
 import com.example.diosoccernews.data.local.AppDatabase
@@ -15,7 +14,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class NewsViewModel : ViewModel() {
-    var newsApi: NewsApiService
+    private var newsApi: NewsApiService
     private val _newsList = MutableLiveData<List<News>>()
 
     init {

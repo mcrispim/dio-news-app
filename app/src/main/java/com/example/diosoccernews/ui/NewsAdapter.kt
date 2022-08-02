@@ -24,6 +24,7 @@ class NewsAdapter(private val listNews: List<News>,
         }
 
         override fun onBindViewHolder(holder: NewsViewHolder, position: Int) {
+                val context = holder.itemView.context
                 val news = listNews[position]
                 Picasso.get()
                         .load(news.imagem)
@@ -32,7 +33,6 @@ class NewsAdapter(private val listNews: List<News>,
                 holder.binding.tvTexto.text = news.texto
 
                 // implementação da funcionalidade Link para a Notícia
-                val context = holder.itemView.context
                 holder.binding.btLink.setOnClickListener { _ ->
                         val intentOpenURL = Intent(Intent.ACTION_VIEW)
                         intentOpenURL.data = Uri.parse(news.link)
@@ -54,9 +54,11 @@ class NewsAdapter(private val listNews: List<News>,
                         notifyItemChanged(position)
                 }
                 if (news.isFavorite) {
-                        holder.binding.ivFavorito.setColorFilter(R.color.black)
+                        holder.binding.ivFavorito
+                                .setColorFilter(context.resources.getColor(R.color.purple_700, null))
                 } else {
-                        holder.binding.ivFavorito.setColorFilter(R.color.white)
+                        holder.binding.ivFavorito
+                                .setColorFilter(context.resources.getColor(R.color.purple_200, null))
                 }
         }
 
