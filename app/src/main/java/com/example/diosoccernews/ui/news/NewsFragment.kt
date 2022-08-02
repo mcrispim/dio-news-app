@@ -1,20 +1,16 @@
 package com.example.diosoccernews.ui.news
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.Room
-import com.example.diosoccernews.NewsApplication
 import com.example.diosoccernews.data.News
-import com.example.diosoccernews.data.local.AppDatabase
 import com.example.diosoccernews.databinding.FragmentNewsBinding
 import com.example.diosoccernews.ui.NewsAdapter
+import com.example.diosoccernews.ui.MyViewModel
 
 class NewsFragment : Fragment() {
 
@@ -33,14 +29,14 @@ class NewsFragment : Fragment() {
     ): View {
         _binding = FragmentNewsBinding.inflate(inflater, container, false)
         val root: View = binding.root
-        val newsViewModel = ViewModelProvider(this).get(NewsViewModel::class.java)
+        val newsMyViewModel = ViewModelProvider(this).get(MyViewModel::class.java)
         val context = container?.context
 
-        binding.rvNewsRecyclerView.layoutManager = LinearLayoutManager(context)
-        newsViewModel.newsList.observe(viewLifecycleOwner) { listNews ->
-            binding.rvNewsRecyclerView.adapter = NewsAdapter(
+        binding.rvNews.layoutManager = LinearLayoutManager(context)
+        newsMyViewModel.newsList.observe(viewLifecycleOwner) { listNews ->
+            binding.rvNews.adapter = NewsAdapter(
                 listNews
-            ) { favoritedNews: News -> newsViewModel.newsDao.addNews(favoritedNews) }
+            ) { favoritedNews: News -> newsMyViewModel.newsDao.addNews(favoritedNews) }
         }
 
         return root

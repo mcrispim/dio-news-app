@@ -53,13 +53,8 @@ class NewsAdapter(private val listNews: List<News>,
                         favoriteListener(news)
                         notifyItemChanged(position)
                 }
-                if (news.isFavorite) {
-                        holder.binding.ivFavorito
-                                .setColorFilter(context.resources.getColor(R.color.purple_700, null))
-                } else {
-                        holder.binding.ivFavorito
-                                .setColorFilter(context.resources.getColor(R.color.purple_200, null))
-                }
+                val favoriteColor = if (news.isFavorite) R.color.favorite_active else R.color.favorite_inactive
+                holder.binding.ivFavorito.setColorFilter(context.resources.getColor(favoriteColor, null))
         }
 
         override fun getItemCount() = listNews.size
