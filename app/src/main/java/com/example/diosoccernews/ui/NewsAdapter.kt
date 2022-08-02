@@ -10,7 +10,9 @@ import com.example.diosoccernews.data.News
 import com.example.diosoccernews.databinding.ItemNewsBinding
 import com.squareup.picasso.Picasso
 
-class NewsAdapter(private val listNews: List<News>, private val favoriteListener: View.OnClickListener): RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
+class NewsAdapter(private val listNews: List<News>,
+                  private val favoriteListener: (favoritedNews: News) -> Unit )
+        : RecyclerView.Adapter<NewsAdapter.NewsViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsViewHolder {
                 val layoutInflater = LayoutInflater.from(parent.context)
@@ -42,7 +44,11 @@ class NewsAdapter(private val listNews: List<News>, private val favoriteListener
                 }
 
                 // Implementação da funcionalidade favorito da notícia
-                holder.binding.ivFavorito.setOnClickListener(favoriteListener)
+                holder.binding.ivFavorito.setOnClickListener { _ ->
+                        news.isFavorite = !news.isFavorite
+                        favoriteListener(news)
+                        notifyItemChanged(position)
+                }
         }
 
         override fun getItemCount() = listNews.size
@@ -50,5 +56,4 @@ class NewsAdapter(private val listNews: List<News>, private val favoriteListener
         inner  class NewsViewHolder(val binding: ItemNewsBinding): RecyclerView.ViewHolder(binding.root) {
 
         }
-
 }

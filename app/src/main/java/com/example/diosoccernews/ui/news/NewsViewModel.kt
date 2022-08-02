@@ -14,7 +14,6 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-
 class NewsViewModel : ViewModel() {
     var newsApi: NewsApiService
     private val _newsList = MutableLiveData<List<News>>()
@@ -26,12 +25,9 @@ class NewsViewModel : ViewModel() {
             .build()
 
         newsApi = retrofit.create(NewsApiService::class.java)
-
-        val newsDao = AppDatabase.getDaoInstance(NewsApplication.getAppContext())
-
-        getAllRemoteNews()
+        getAllRemoteNews()      // Put the remote news on _newsList
     }
-
+    val newsDao = AppDatabase.getDaoInstance(NewsApplication.getAppContext())
     val newsList: LiveData<List<News>> = _newsList
 
     private fun getAllRemoteNews() {
