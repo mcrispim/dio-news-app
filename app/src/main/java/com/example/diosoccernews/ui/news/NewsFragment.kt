@@ -30,6 +30,7 @@ class NewsFragment : Fragment() {
         val newsViewModel = (this.activity as MainActivity).newsViewModel
         val context = container?.context
 
+        newsViewModel.updateNewsList()
         binding.rvNews.layoutManager = LinearLayoutManager(context)
         newsViewModel.newsList.observe(viewLifecycleOwner) { listNews ->
             binding.rvNews.adapter = NewsAdapter(

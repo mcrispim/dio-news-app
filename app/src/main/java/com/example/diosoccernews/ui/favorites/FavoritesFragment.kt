@@ -7,7 +7,12 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.diosoccernews.MainActivity
+import com.example.diosoccernews.data.News
 import com.example.diosoccernews.databinding.FragmentFavoritesBinding
+import com.example.diosoccernews.ui.NewsAdapter
+import com.example.diosoccernews.ui.ViewModel
 
 class FavoritesFragment : Fragment() {
 
@@ -22,16 +27,24 @@ class FavoritesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val notificationsViewModel =
-            ViewModelProvider(this).get(FavoritesViewModel::class.java)
-
         _binding = FragmentFavoritesBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        val newsViewModel = (this.activity as MainActivity).newsViewModel
+        val context = container?.context
 
+        binding.rvFavorites.layoutManager = LinearLayoutManager(context)
+        loadFavoriteNews(newsViewModel)
 
+        return binding.root
+    }
 
-
-        return root
+    private fun loadFavoriteNews(newsViewModel: ViewModel) {
+        val favoritedNewsList = newsViewModel.newsDao.getFavoriteNews()
+        binding.rvFavorites.adapter = NewsAdapter(
+            favoritedNewsList
+        ) { favoritedNews: News ->
+            newsViewModel.newsDao.addNews(favoritedNews)
+            loadFavoriteNews(newsViewModel)
+        }
     }
 
     override fun onDestroyView() {

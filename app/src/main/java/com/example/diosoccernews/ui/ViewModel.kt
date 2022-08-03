@@ -23,6 +23,9 @@ class ViewModel : ViewModel() {
     }
     val newsList: LiveData<List<News>> = _newsList
 
+    fun updateNewsList() {
+        _newsList.value = newsDao.getAllNews()
+    }
     private fun getAllRemoteNews() {
         newsApi.getAllNews().enqueue(
             object : Callback<List<News>> {
