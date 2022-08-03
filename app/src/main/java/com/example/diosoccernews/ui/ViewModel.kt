@@ -14,7 +14,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MyViewModel : ViewModel() {
+class ViewModel : ViewModel() {
     val newsDao = AppDatabase.getDaoInstance(NewsApplication.getAppContext())
     private var newsApi = RemoteNews().buildApi()
     private val _newsList = MutableLiveData<List<News>>()
@@ -30,10 +30,9 @@ class MyViewModel : ViewModel() {
                     call: Call<List<News>>,
                     response: Response<List<News>>
                 ) {
-                    val a = response.body()?.let { news ->
+                    response.body()?.let { news ->
                         _newsList.value = news
                         newsDao.addAllNews(news)
-                        // TODO: melhorar resposta em caso de falha
                     }
                 }
                 override fun onFailure(
