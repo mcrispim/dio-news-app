@@ -5,17 +5,14 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.diosoccernews.NewsApplication
 import com.example.diosoccernews.data.News
-import com.example.diosoccernews.data.local.AppDatabase
-import com.example.diosoccernews.data.remote.NewsApiService
+import com.example.diosoccernews.data.local.NewsDatabase
 import com.example.diosoccernews.data.remote.RemoteNews
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class ViewModel : ViewModel() {
-    val newsDao = AppDatabase.getDaoInstance(NewsApplication.getAppContext())
+    val newsDao = NewsDatabase.getDaoInstance(NewsApplication.getAppContext())
     private var newsApi = RemoteNews().buildApi()
     private val _newsList = MutableLiveData<List<News>>()
     init {
@@ -26,6 +23,7 @@ class ViewModel : ViewModel() {
     fun updateNewsList() {
         _newsList.value = newsDao.getAllNews()
     }
+
     private fun getAllRemoteNews() {
         newsApi.getAllNews().enqueue(
             object : Callback<List<News>> {

@@ -1,13 +1,10 @@
 package com.example.diosoccernews.ui
 
-import android.app.Application
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.diosoccernews.NewsApplication
 import com.example.diosoccernews.R
 import com.example.diosoccernews.data.News
 import com.example.diosoccernews.databinding.ItemNewsBinding
@@ -33,14 +30,14 @@ class NewsAdapter(private val listNews: List<News>,
                 holder.binding.tvTexto.text = news.texto
 
                 // implementação da funcionalidade Link para a Notícia
-                holder.binding.btLink.setOnClickListener { _ ->
+                holder.binding.btLink.setOnClickListener {
                         val intentOpenURL = Intent(Intent.ACTION_VIEW)
                         intentOpenURL.data = Uri.parse(news.link)
                         context.startActivity(intentOpenURL)
                 }
 
                 // implementação da funcionalidade Share da Notícia
-                holder.binding.ivShare.setOnClickListener { _ ->
+                holder.binding.ivShare.setOnClickListener {
                         val intentShareURL = Intent(Intent.ACTION_SEND)
                         intentShareURL.type ="text/plain"
                         intentShareURL.putExtra(Intent.EXTRA_TEXT, news.link)
@@ -48,7 +45,7 @@ class NewsAdapter(private val listNews: List<News>,
                 }
 
                 // Implementação da funcionalidade favorito da notícia
-                holder.binding.ivFavorito.setOnClickListener { _ ->
+                holder.binding.ivFavorito.setOnClickListener {
                         news.isFavorite = !news.isFavorite
                         favoriteListener(news)
                         notifyItemChanged(position)
@@ -59,7 +56,5 @@ class NewsAdapter(private val listNews: List<News>,
 
         override fun getItemCount() = listNews.size
 
-        inner  class NewsViewHolder(val binding: ItemNewsBinding): RecyclerView.ViewHolder(binding.root) {
-
-        }
+        inner  class NewsViewHolder(val binding: ItemNewsBinding): RecyclerView.ViewHolder(binding.root)
 }
